@@ -40,6 +40,7 @@ pipeline {
                 script {
                     def userInput = input id: 'userInput', message: 'Please enter the EC2 public IP address:', parameters: [string(name: 'PUBLIC_IP', defaultValue: '', description: ' EC2 Public IP Address')]
                     env.PUBLIC_IP = userInput
+                    echo "User provided EC2 public IP: ${env.PUBLIC_IP}"
                 }
             }
         }
@@ -47,9 +48,11 @@ pipeline {
             steps {
                 script {
                    echo 'deploying docker image to EC2...'
+                   echo "Using EC2 public IP: ${env.PUBLIC_IP}"
 
                    def shellCmd = "bash ./server-cmds.sh ${IMAGE_NAME}"
                    def ec2Instance = "ec2-user@${env.PUBLIC_IP}"
+                   echo "EC2 instance: ${ec2Instance}"
 
                    sshagent(['ec2-server-key-paris']) {
                        sh "scp -o StrictHostKeyChecking=no server-cmds.sh ${ec2Instance}:/home/ec2-user"
