@@ -14,7 +14,6 @@ pipeline {
     }
     environment {
         IMAGE_NAME = 'ibrahimosama/my-repo:ec2-image'
-        PUBLIC_IP = ''
     }
     stages {
         stage('build app') {
