@@ -21,5 +21,8 @@ You will need to install docker compose
 docker-compose
 [ec2-user@ip-172-31-0-57 bin]$ chmod +x docker-compose
 
+Also, you need to add the ec2-user to Docker group in order to allow it to run docker commands without issues
+sudo usermod -aG docker ec2-user
+Then, logout and login again
 I had to install this python package also
 [ec2-user@ip-172-31-0-57 bin]$ sudo yum install libxcrypt-compat
