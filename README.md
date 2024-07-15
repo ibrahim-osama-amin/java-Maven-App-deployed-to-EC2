@@ -4,7 +4,7 @@ This build requires the EC2 to be installed ready with the below:
 Ports 8080, 22 opened (preferabally to your own ip address only for security)
 
 You will need to install docker
-# dnf install docker -y
+dnf install docker -y
 You will need to do docker login
 docker login and then enter your credentials
 
