@@ -38,9 +38,11 @@ pipeline {
         stage ('User input of EC2 public IP'){
             steps {
                 script {
-                    def userInput = input id: 'userInput', message: 'Please enter the EC2 public IP address:', parameters: [string(name: 'PUBLIC_IP', defaultValue: '', description: ' EC2 Public IP Address')]
-                    env.PUBLIC_IP = userInput
-                    echo "User provided EC2 public IP: ${env.PUBLIC_IP}"
+                    def userInput = input id: 'userInput', message: 'Please enter the EC2 public IP address:', parameters: [string(name: 'PUBLIC_IP', defaultValue: '', description: 'EC2 Public IP Address')]
+                    echo "Captured user input: ${userInput}"
+                    env.PUBLIC_IP = userInput.trim()
+                    
+                    echo "Assigned PUBLIC_IP: ${env.PUBLIC_IP}"
                 }
             }
         }
