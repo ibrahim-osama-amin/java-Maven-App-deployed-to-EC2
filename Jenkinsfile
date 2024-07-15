@@ -14,6 +14,7 @@ pipeline {
     }
     environment {
         IMAGE_NAME = 'ibrahimosama/my-repo:ec2-image'
+        PUBLIC_IP = ''
     }
     stages {
         stage('build app') {
@@ -34,13 +35,21 @@ pipeline {
                 }
             }
         }
+        stage ('User input of EC2 public IP'){
+            steps {
+                script {
+                    def userInput = input id: 'userInput', message: 'Please enter the EC2 public IP address:', parameters: [string(name: 'PUBLIC_IP', defaultValue: '', description: ' EC2 Public IP Address')]
+                    env.PUBLIC_IP = userInput
+                }
+            }
+        }
         stage('deploy') {
             steps {
                 script {
                    echo 'deploying docker image to EC2...'
 
                    def shellCmd = "bash ./server-cmds.sh ${IMAGE_NAME}"
-                   def ec2Instance = "ec2-user@15.188.62.186"
+                   def ec2Instance = "ec2-user@${env.PUBLIC_IP}"
 
                    sshagent(['ec2-server-key-paris']) {
                        sh "scp -o StrictHostKeyChecking=no server-cmds.sh ${ec2Instance}:/home/ec2-user"
